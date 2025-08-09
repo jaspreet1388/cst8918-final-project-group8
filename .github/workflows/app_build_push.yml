@@ -1,0 +1,38 @@
+name: 'App Build & Push (PR → ACR)'
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'grp3-weather-app/**'
+      - '.github/workflows/app_build_push.yml'
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ACR_NAME: ${{ secrets.ACR_NAME }} # e.g., grp3acr
+  IMAGE_NAME: weather-app
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./grp3-weather-app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Docker Login (ACR admin)
+        run: echo "${{ secrets.ACR_PASSWORD }}" | docker login $ACR_NAME.azurecr.io -u "${{ secrets.ACR_USERNAME }}" --password-stdin
+
+            - name: Azure CLI - ACR Login
+        run: az acr login --name $ACR_NAME
+
+      - name: Docker Build
+        run: docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
+
+      - name: Docker Push
+        run: docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG

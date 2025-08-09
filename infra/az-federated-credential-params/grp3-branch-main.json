@@ -1,0 +1,7 @@
+{
+    "name": "grp3-branch-main",
+    "issuer": "https://token.actions.githubusercontent.com",
+    "subject": "repo:kare0041/cst8918-final-project-group3:branch:main",
+    "description": "CST8918 Final Project - GitHub Actions",
+    "audiences": ["api://AzureADTokenExchange"]
+  }

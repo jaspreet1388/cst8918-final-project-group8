@@ -1,0 +1,95 @@
+name: 'App Deploy to AKS'
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'grp3-weather-app/**'
+      - '.github/workflows/app_deploy.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'grp3-weather-app/**'
+      - '.github/workflows/app_deploy.yml'
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  ACR_NAME: ${{ secrets.ACR_NAME }}
+  IMAGE_NAME: weather-app
+  IMAGE_TAG: ${{ github.sha }}
+  RG_NAME: ${{ secrets.AKS_RESOURCE_GROUP }}        # e.g., cst8918-final-project-group-3
+  TEST_AKS_NAME: ${{ secrets.TEST_AKS_NAME }}       # match tf-app/modules/aks test cluster name
+  PROD_AKS_NAME: ${{ secrets.PROD_AKS_NAME }}       # match tf-app/modules/aks prod cluster name
+  WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
+  REDIS_HOST_TEST: ${{ secrets.REDIS_HOST_TEST }}
+  REDIS_HOST_PROD: ${{ secrets.REDIS_HOST_PROD }}
+
+jobs:
+  deploy-test:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set AKS context (test)
+        uses: azure/aks-set-context@v4
+        with:
+          cluster-name: ${{ env.TEST_AKS_NAME }}
+          resource-group: ${{ env.RG_NAME }}
+
+      - name: Create/Update K8s namespace
+        run: kubectl apply -f grp3-weather-app/k8s/a01_namespace.yaml
+
+      - name: Create/Update secret (test)
+        run: |
+          kubectl -n cst8918 delete secret weather --ignore-not-found
+          kubectl -n cst8918 create secret generic weather             --from-literal=api-key="${WEATHER_API_KEY}"             --from-literal=redis-host="${REDIS_HOST_TEST}"
+
+      - name: Deploy manifests (test) with updated image
+        run: |
+          sed -e "s|image: .*|image: ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}|g" grp3-weather-app/k8s/a01_deployment.yaml | kubectl apply -f -
+          kubectl apply -f grp3-weather-app/k8s/a01_service.yaml
+
+  deploy-prod:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure Login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Set AKS context (prod)
+        uses: azure/aks-set-context@v4
+        with:
+          cluster-name: ${{ env.PROD_AKS_NAME }}
+          resource-group: ${{ env.RG_NAME }}
+
+      - name: Create/Update K8s namespace
+        run: kubectl apply -f grp3-weather-app/k8s/a01_namespace.yaml
+
+      - name: Create/Update secret (prod)
+        run: |
+          kubectl -n cst8918 delete secret weather --ignore-not-found
+          kubectl -n cst8918 create secret generic weather             --from-literal=api-key="${WEATHER_API_KEY}"             --from-literal=redis-host="${REDIS_HOST_PROD}"
+
+      - name: Deploy manifests (prod) with updated image
+        run: |
+          sed -e "s|image: .*|image: ${ACR_NAME}.azurecr.io/${IMAGE_NAME}:${IMAGE_TAG}|g" grp3-weather-app/k8s/a01_deployment.yaml | kubectl apply -f -
+          kubectl apply -f grp3-weather-app/k8s/a01_service.yaml
