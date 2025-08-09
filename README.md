@@ -18,7 +18,7 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 
 | Name             | GitHub Username | Profile Link                                 |
 |------------------|-----------------|----------------------------------------------|
-| JAspreet Singh   | @jaspreet1388   | https://github.com/jaspreet1388    |
+| Jaspreet Singh   | @jaspreet1388   | https://github.com/jaspreet1388    |
 | Romeo De Guzman II |  @degu0055    |  https://github.com/degu0055       |
 | Akshay Malik  |        |  |
 
