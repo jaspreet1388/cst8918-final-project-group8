@@ -18,9 +18,9 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 
 | Name             | GitHub Username | Profile Link                                 |
 |------------------|-----------------|----------------------------------------------|
-| Nidhi Desai      | @Nidhi0152      | [Nidhi0152](https://github.com/Nidhi0152)    |
-| Daniel Karengera | @kare0041       | [kare0041](https://github.com/kare0041)      |
-| Satkirat Kaur    | @kaur1852       | [Satkirat-kaur](https://github.com/Satkirat-kaur) |
+| JAspreet Singh   | @jaspreet1388   |     |
+|  |        |       |
+|    |        |  |
 
 > 🔗 **Note**: Professor `@rlmckenney` has been added as a collaborator to this repository.
 
@@ -78,11 +78,11 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 - **Terraform Plan**: Ensures visibility of changes before apply
 - **CI Validation**: Triggered on all PRs and commits
 
-> ❌ *Application-level tests are not included per project guidelines.*
+> *Application-level tests are not included per project guidelines.*
 
 ---
 
-## 🚀 Deployment Strategy
+## Deployment Strategy
 
 - **Pull Requests**:  
   - Application changes are built and deployed to **test**  
@@ -94,7 +94,7 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 
 ---
 
-## 🧪 How to Run the Project
+## How to Run the Project
 
 > 💡 **Pre-requisites**:
 - Azure CLI with access to your subscription
