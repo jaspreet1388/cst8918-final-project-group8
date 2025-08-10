@@ -4,18 +4,30 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.96.0"
+      version = "~> 3.117.0"
     }
   }
 }
 
+provider "azurerm" {
+  features {}
+}
+
+# Automatically pick latest supported GA version for your location
+data "azurerm_kubernetes_service_versions" "current" {
+  location        = var.location
+  include_preview = false
+}
+
+# ----------------- TEST CLUSTER -----------------
 # tfsec:ignore:azure-container-limit-authorized-ips tfsec:ignore:azure-container-logging
 resource "azurerm_kubernetes_cluster" "test" {
-  api_version         = "2024-07-01"
   name                = var.test_aks_name
   location            = var.location
   resource_group_name = var.resource_group_name
   dns_prefix          = "${var.test_aks_name}-dns"
+
+  kubernetes_version = data.azurerm_kubernetes_service_versions.current.latest_version
 
   default_node_pool {
     name           = "default"
@@ -28,8 +40,6 @@ resource "azurerm_kubernetes_cluster" "test" {
   identity {
     type = "SystemAssigned"
   }
-
-  kubernetes_version = "1.32.0"
 
   role_based_access_control_enabled = true
 
@@ -49,13 +59,15 @@ resource "azurerm_kubernetes_cluster" "test" {
   }
 }
 
+# ----------------- PROD CLUSTER -----------------
 # tfsec:ignore:azure-container-limit-authorized-ips tfsec:ignore:azure-container-logging
 resource "azurerm_kubernetes_cluster" "prod" {
-  api_version         = "2024-07-01"
   name                = var.prod_aks_name
   location            = var.location
   resource_group_name = var.resource_group_name
   dns_prefix          = "${var.prod_aks_name}-dns"
+
+  kubernetes_version = data.azurerm_kubernetes_service_versions.current.latest_version
 
   default_node_pool {
     name                = "default"
@@ -70,8 +82,6 @@ resource "azurerm_kubernetes_cluster" "prod" {
   identity {
     type = "SystemAssigned"
   }
-
-  kubernetes_version = "1.32.0"
 
   role_based_access_control_enabled = true
 
