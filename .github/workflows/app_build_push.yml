@@ -1,4 +1,5 @@
 name: 'App Build & Push (PR → ACR)'
+
 on:
   pull_request:
     branches: [ main ]
@@ -6,33 +7,50 @@ on:
       - 'grp3-weather-app/**'
       - '.github/workflows/app_build_push.yml'
 
+# Avoid overlapping PR builds fighting over rate limits
+concurrency:
+  group: app-build-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
 permissions:
-  id-token: write
   contents: read
 
 env:
-  ACR_NAME: ${{ secrets.ACR_NAME }} # e.g., grp3acr
+  ACR_NAME: ${{ secrets.ACR_NAME }}
   IMAGE_NAME: weather-app
   IMAGE_TAG: ${{ github.sha }}
+  DOCKER_BUILDKIT: '1'        # faster, more reliable builds
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     defaults:
       run:
         working-directory: ./grp3-weather-app
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Single, reliable login using ACR admin creds (your "just-works" path)
       - name: Docker Login (ACR admin)
         run: echo "${{ secrets.ACR_PASSWORD }}" | docker login $ACR_NAME.azurecr.io -u "${{ secrets.ACR_USERNAME }}" --password-stdin
 
-            - name: Azure CLI - ACR Login
-        run: az acr login --name $ACR_NAME
-
+      # Pull latest base layers to avoid stale cache issues
       - name: Docker Build
-        run: docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
+        run: docker build --pull -t $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG .
 
-      - name: Docker Push
-        run: docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG
+      # Push with simple retry loop to dodge transient 429/5xx from ACR
+      - name: Docker Push (with retries)
+        run: |
+          n=0
+          until [ $n -ge 5 ]; do
+            docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:$IMAGE_TAG && break
+            n=$((n+1))
+            echo "Push failed (attempt $n). Retrying in 10s..."
+            sleep 10
+          done
+          if [ $n -ge 5 ]; then
+            echo "Push failed after 5 attempts"; exit 1
+          fi
