@@ -21,9 +21,9 @@ module "acr" {
   source               = "./modules/acr"
   location             = var.location
   resource_group_name  = module.network.resource_group_name
-  acr_name             = "grp3weatheracr"
-  redis_test_name      = "grp3redistest"
-  redis_prod_name      = "grp3redisprod"
+  acr_name             = "grp8weatheracr"
+  redis_test_name      = "grp8redistest"
+  redis_prod_name      = "grp8redisprod"
   test_aks_identity_id = module.aks.test_aks_identity_id
   prod_aks_identity_id = module.aks.prod_aks_identity_id
 }
