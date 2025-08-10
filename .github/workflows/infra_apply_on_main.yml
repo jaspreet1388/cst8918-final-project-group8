@@ -1,7 +1,9 @@
-name: 'Terraform Apply (on main)'
+name: "Terraform Apply (local-state debug)"
+
 on:
   push:
     branches: [ main ]
+
 permissions:
   id-token: write
   contents: read
@@ -37,8 +39,9 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Terraform Init
-        run: terraform init -input=false
+      # ⚠️ Local state: ignores the azurerm backend in your .tf files
+      - name: Terraform Init (local state)
+        run: terraform init -backend=false -input=false
 
-      - name: Terraform Apply
+      - name: Terraform Apply (local state)
         run: terraform apply -auto-approve -input=false
