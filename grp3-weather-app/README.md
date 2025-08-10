@@ -7,7 +7,7 @@ In this hands-on lab activity we will lay the foundations for adopting infrastru
 
 ## Objectives
 
-- Review general application requirements and solution implementation choices
+- Review general application requirements and solution implementation choices##
 - Review the benefits of containerization
 - Get an introduction to Kubernetes
 
