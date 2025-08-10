@@ -24,7 +24,7 @@ resource "azurerm_redis_cache" "redis_test" {
   capacity             = 1
   family               = "C"
   sku_name             = "Basic"
-  non_ssl_port_enabled = true
+  enable_non_ssl_port = true
 }
 
 resource "azurerm_redis_cache" "redis_prod" {
@@ -34,7 +34,7 @@ resource "azurerm_redis_cache" "redis_prod" {
   capacity             = 1
   family               = "C"
   sku_name             = "Basic"
-  non_ssl_port_enabled = true
+  enable_non_ssl_port = true
 }
 
 # Grant ACR Pull access to AKS Test cluster
