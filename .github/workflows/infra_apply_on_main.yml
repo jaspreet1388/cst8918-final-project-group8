@@ -38,21 +38,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # Keep provider version the same as your project (adjust if needed)
-      - name: Pin provider version for CI (v3)
-        run: |
-          cat > versions.ci.tf <<'EOF'
-          terraform {
-            required_providers {
-              azurerm = {
-                source  = "hashicorp/azurerm"
-                version = "~> 3.96.0"
-              }
-            }
-          }
-          EOF
-
-      # Remove only the backend "azurerm" block from files (in runner only)
+      # Remove only backend blocks; keep your provider + lockfile intact
       - name: Strip azurerm backend blocks (CI only)
         run: |
           set -e
@@ -69,12 +55,12 @@ jobs:
               ' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
             done
           else
-            echo "No backend azurerm blocks found."
+            echo "No azurerm backend block found."
           fi
 
-      - name: Reset Terraform working dir
+      - name: Reset Terraform working dir (keep lockfile)
         run: |
-          rm -rf .terraform .terraform.lock.hcl terraform.tfstate terraform.tfstate.backup
+          rm -rf .terraform terraform.tfstate terraform.tfstate.backup
 
       - name: Terraform Init (local state)
         run: terraform init -backend=false -reconfigure -input=false
