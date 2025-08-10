@@ -115,9 +115,9 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 ## 📸 Screenshots
 
 - GitHub Actions runs
-- Workflow Prod: 
+- Workflow Dev: 
   <img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/6e3bb5ab-862b-4116-a134-49d039f4b092" />
-- Workflow Dev : 
+- Workflow Prod : 
   <img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/3d8c9128-79ba-4472-9b42-befe067749ce" />
 
 <img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/8920cb05-c4ef-4f3c-bfec-b80239e05164" />
