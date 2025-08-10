@@ -9,7 +9,7 @@ terraform {
   }
 
   backend "azurerm" {
-    resource_group_name  = "cst8918-final-backend-group3-rg"
+    resource_group_name  = "cst8918-final-backend-group8-rg"
     storage_account_name = "group3backendstorage"
     container_name       = "tfstate"
     key                  = "prod.app.tfstate"
