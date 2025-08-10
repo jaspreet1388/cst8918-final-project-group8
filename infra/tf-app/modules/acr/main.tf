@@ -1,3 +1,14 @@
+terraform {
+  required_version = ">= 1.5.0"
+
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.96.0"
+    }
+  }
+}
+
 resource "azurerm_container_registry" "weather_app_acr" {
   name                = var.acr_name
   resource_group_name = var.resource_group_name
