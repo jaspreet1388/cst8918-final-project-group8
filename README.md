@@ -20,7 +20,7 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 |------------------|-----------------|----------------------------------------------|
 | Jaspreet Singh   | @jaspreet1388   | https://github.com/jaspreet1388    |
 | Romeo De Guzman II |  @degu0055    |  https://github.com/degu0055       |
-| Akshay Malik  |        |  |
+| Akshay Malik     |  @mali0154      |  https://github.com/mali0154     |
 
 > 🔗 **Note**: Professor `@rlmckenney` has been added as a collaborator to this repository.
 
