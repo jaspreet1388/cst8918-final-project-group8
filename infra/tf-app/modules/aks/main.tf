@@ -11,6 +11,7 @@ terraform {
 
 # tfsec:ignore:azure-container-limit-authorized-ips tfsec:ignore:azure-container-logging
 resource "azurerm_kubernetes_cluster" "test" {
+  api_version         = "2024-07-01"
   name                = var.test_aks_name
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -50,6 +51,7 @@ resource "azurerm_kubernetes_cluster" "test" {
 
 # tfsec:ignore:azure-container-limit-authorized-ips tfsec:ignore:azure-container-logging
 resource "azurerm_kubernetes_cluster" "prod" {
+  api_version         = "2024-07-01"
   name                = var.prod_aks_name
   location            = var.location
   resource_group_name = var.resource_group_name
