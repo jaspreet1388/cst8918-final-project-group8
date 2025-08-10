@@ -14,6 +14,8 @@ env:
   ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
   ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
   ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  # If your code uses a team number, uncomment and set it:
+  # TF_VAR_team_number: 8
 
 jobs:
   apply:
@@ -64,6 +66,12 @@ jobs:
 
       - name: Terraform Init (local state)
         run: terraform init -backend=false -reconfigure -input=false
+
+      # 👉 Import existing RG so apply doesn't try to recreate it
+      - name: Terraform Import existing RG
+        run: |
+          terraform import module.network.azurerm_resource_group.network_rg \
+            /subscriptions/${{ secrets.AZURE_SUBSCRIPTION_ID }}/resourceGroups/cst8918-final-project-group-8 || true
 
       - name: Terraform Apply (local state)
         run: terraform apply -auto-approve -input=false
