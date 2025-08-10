@@ -1,3 +1,13 @@
+terraform {
+  required_version = ">= 1.5.0"
+
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.96.0"
+    }
+  }
+}
 
 # tfsec:ignore:azure-container-limit-authorized-ips tfsec:ignore:azure-container-logging
 resource "azurerm_kubernetes_cluster" "test" {
