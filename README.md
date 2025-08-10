@@ -159,6 +159,6 @@ az group delete --name cst8918-final-project-group-<group-number>
 
 - Repository: [GitHub Project URL]
 - Professor invited: `@rlmckenney`
-- ubmitted on Brightspace: 
+- Submitted on Brightspace
 
 ---
