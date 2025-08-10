@@ -1,5 +1,4 @@
 name: "Terraform Apply (local-state debug)"
-
 on:
   push:
     branches: [ main ]
@@ -39,20 +38,38 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # Temporarily disable any azurerm backend blocks so Terraform won't request it
-      - name: Disable azurerm backend (CI only)
+      # Keep provider version the same as your project (adjust if needed)
+      - name: Pin provider version for CI (v3)
+        run: |
+          cat > versions.ci.tf <<'EOF'
+          terraform {
+            required_providers {
+              azurerm = {
+                source  = "hashicorp/azurerm"
+                version = "~> 3.96.0"
+              }
+            }
+          }
+          EOF
+
+      # Remove only the backend "azurerm" block from files (in runner only)
+      - name: Strip azurerm backend blocks (CI only)
         run: |
           set -e
-          # Find files that declare `backend "azurerm"`
-          files=$(grep -RIl 'backend[[:space:]]*\"azurerm\"' . || true)
+          files=$(grep -RIl 'backend[[:space:]]*"azurerm"' . || true)
           if [ -n "$files" ]; then
-            echo "Disabling backend in:"
+            echo "Stripping backend blocks from:"
             echo "$files"
             for f in $files; do
-              mv "$f" "$f.ci-disabled"
+              awk '
+              /backend[[:space:]]*"azurerm"[[:space:]]*\{/ {inblk=1; depth=1; next}
+              /\{/ && inblk {depth++}
+              /\}/ && inblk {depth--; if (depth==0) {inblk=0; next}}
+              !inblk {print}
+              ' "$f" > "$f.tmp" && mv "$f.tmp" "$f"
             done
           else
-            echo "No azurerm backend block found."
+            echo "No backend azurerm blocks found."
           fi
 
       - name: Reset Terraform working dir
