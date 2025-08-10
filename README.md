@@ -26,7 +26,7 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 
 ---
 
-## 🧱 Infrastructure Architecture
+## Infrastructure Architecture
 
 ### Terraform Modules Structure:
 
@@ -64,11 +64,7 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 | `deploy-weather-test.yml` | On PR to `main` (app changes) | Deploy Weather App to **test** AKS |
 | `deploy-weather-prod.yml` | On push to `main` (app changes) | Deploy Weather App to **prod** AKS |
 
-✅ Branch Protection Rules:
-- Require PRs with at least 1 approving review
-- No direct push to `main`
-- Status checks must pass
-- Require branch to be up to date
+
 
 ---
 
@@ -96,7 +92,7 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 
 ## How to Run the Project
 
-> 💡 **Pre-requisites**:
+> **Pre-requisites**:
 - Azure CLI with access to your subscription
 - GitHub repository access
 - A federated identity created for GitHub Actions (OIDC)
@@ -118,13 +114,11 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 
 ## 📸 Screenshots
 
-> Attach a screenshot here showing:
-- GitHub Actions runs for `terraform-static`, `terraform-plan`, `terraform-apply`
-- Successful deployments of test and prod environments
+- GitHub Actions runs 
 
 ---
 
-## 🧹 Cleanup Instructions
+## Cleanup Instructions
 
 Once submitted, delete the deployed Azure resources to avoid unnecessary charges:
 
@@ -132,14 +126,14 @@ Once submitted, delete the deployed Azure resources to avoid unnecessary charges
 az group delete --name cst8918-final-project-group-<group-number>
 ```
 
-> ⚠️ Failure to clean up resources may result in **10% grade penalty**.
+
 
 ---
 
 ## 📬 Submission Info
 
-- ✅ Repository: [GitHub Project URL]
-- 🧑‍🏫 Professor invited: ✅ `@rlmckenney`
-- 📎 Submitted on Brightspace: ✅
+- Repository: [GitHub Project URL]
+- Professor invited: `@rlmckenney`
+- ubmitted on Brightspace: 
 
 ---
