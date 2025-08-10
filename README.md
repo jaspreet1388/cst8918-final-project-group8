@@ -114,7 +114,32 @@ Our solution is modular, secure, collaborative, and automated. The infrastructur
 
 ## 📸 Screenshots
 
-- GitHub Actions runs 
+- GitHub Actions runs
+- Workflow Prod: 
+- <img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/6e3bb5ab-862b-4116-a134-49d039f4b092" />
+- Workflow Dev : 
+- <img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/3d8c9128-79ba-4472-9b42-befe067749ce" />
+
+<img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/8920cb05-c4ef-4f3c-bfec-b80239e05164" />
+
+<img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/83bee232-6ead-40e0-af4f-3140c6708fda" />
+
+<img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/106fee42-42ee-4ba0-a2be-ecb93e5648aa" />
+
+<img width="2636" height="1506" alt="image" src="https://github.com/user-attachments/assets/d0cac546-39f9-4436-904d-1cdd75439787" />
+
+<img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/a7dfcc5d-4b00-4b86-b81c-ae83ffd72eb7" />
+
+<img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/2557dd05-706d-4a26-878c-3d5e30235071" />
+
+<img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/b1f3272c-b384-4080-896e-c33756d1b9e9" />
+
+<img width="2636" height="1532" alt="image" src="https://github.com/user-attachments/assets/3b033e74-d7a2-4df0-bfec-fa6c1793143d" />
+
+
+
+
+
 
 ---
 
