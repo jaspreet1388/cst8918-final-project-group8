@@ -6,7 +6,7 @@
 
 ---
 
-## 🌤️ Project Overview
+## Project Overview
 
 This capstone project showcases the practical application of Infrastructure as Code (IaC) principles using **Terraform**, **Azure Kubernetes Service (AKS)**, and **GitHub Actions**. It builds upon the Remix Weather Application introduced in Week 3, deploying it across multiple environments (dev, test, prod) on Azure infrastructure.
 
